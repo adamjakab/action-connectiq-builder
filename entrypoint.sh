@@ -44,10 +44,9 @@ fi
 # Run tests
 echo "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
 
-/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | echo
-
-result="${PIPESTATUS[0]}"
-echo "Result code $result"
+/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH"
+result=$?
+echo "Script exit code: $result"
 
 #set output variable
 if [[ $result -eq 0 ]];
