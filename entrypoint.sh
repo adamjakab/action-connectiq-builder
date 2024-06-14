@@ -1,6 +1,9 @@
 #!/bin/bash
 
 echo "Starting entrypoint script..."
+which echo
+
+
 
 #fail if one of the commands fails
 #set -e
@@ -14,7 +17,7 @@ function loginfo {
 	if [[ -n $1 ]]
 	then
 		message="$1"
-		echo "::debug::$message"
+		/bin/echo "::debug::$message"
 	else
 		while read -r message
 		do
