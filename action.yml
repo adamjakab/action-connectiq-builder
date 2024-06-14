@@ -19,8 +19,10 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
+    - TEST
     - ${{inputs.path}}
     - ${{inputs.device}}
+    - 2
     # - ${{inputs.certificate}}
 branding:
   icon: "package"

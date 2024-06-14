@@ -6,32 +6,48 @@ echo "Starting entrypoint script..."
 set -e
 
 # Retrieve the script parameters
-APP_PATH=$1
-DEVICE=$2
-TYPE_CHECK_LEVEL=2
-# CERTIFICATE=$3
+SCRIPT_NAME=${1}
+APP_PATH=${2}
+DEVICE=${3}
+TYPE_CHECK_LEVEL=${4}
+CERTIFICATE=${5}
+
+case "${SCRIPT_NAME}" in
+	TEST)
+		SCRIPT_PATH="/scripts/test.sh"
+		;;
+	INFO)
+		SCRIPT_PATH="/scripts/info.sh"
+		;;
+	*)
+		echo "Bad scipt name: '${SCRIPT_NAME}'."
+		exit 1
+esac
+
 
 # Display the script parameters
+echo "SCRIPT: ${SCRIPT_NAME}(${SCRIPT_PATH})"
 echo "APP_PATH: ${APP_PATH}"
 echo "DEVICE: ${DEVICE}"
 echo "TYPE_CHECK_LEVEL: ${TYPE_CHECK_LEVEL}"
+echo "CERTIFICATE: ${CERTIFICATE}"
 
-# Override the HOME enviroment variable
-# export HOME=/root
+# Restore the HOME enviroment variable
+export HOME=/root
 
 # Entering folder when the app is stored relatively to the GitHub workspace
-if [[ -n $1 ]]
-then
-	echo "Entering folder $APP_PATH..."
-	cd "$APP_PATH"
-	echo "Now in folder $(pwd)"
-fi
+echo "Entering folder $APP_PATH..."
+cd "$APP_PATH"
 
-# Run tests
-echo "Running tests on device [$DEVICE] with certificate [$CERTIFICATE_PATH]..."
-
-/scripts/test.sh --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL}
+# Run the script 
+echo "********************************************************************************"
+echo "**************************   Starting Script (TEST)   **************************"
+echo "********************************************************************************"
+/bin/bash ${SCRIPT_PATH} --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL}
 result=$?
+echo "********************************************************************************"
+echo "*****************************   Script Completed  ******************************"
+echo "********************************************************************************"
 echo "Script exit code: $result"
 
 #set output variable
