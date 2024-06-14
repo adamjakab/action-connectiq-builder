@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Staring entrypoint script..."
+
 #fail if one of the commands fails
 set -e
 
@@ -9,12 +11,10 @@ DEVICE_ID=$2
 CERTIFICATE_PATH=$3
 
 function info {
-	#retrieve message from the parameter
 	if [[ -n $1 ]]
 	then
 		message="$1"
 		echo -e "::debug::$message"
-	#or read the message directly
 	else
 		while read -r message
 		do
@@ -44,7 +44,7 @@ info "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH].
 /scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | info
 
 result="${PIPESTATUS[0]}"
-info "Test finished with result code $result"
+info "Result code $result"
 
 #set output variable
 if [[ $result -eq 0 ]];
