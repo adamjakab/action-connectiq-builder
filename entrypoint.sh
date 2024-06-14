@@ -23,9 +23,11 @@ function info {
 	fi
 }
 
-#override the HOME enviroment variable
-#when executing a Docker Action, GitHub overrides the HOME variable in the command used to run the Docker (it is set to the home of the runner user)
-#the HOME must be restored to the standard home of the root user because ConnectIQ depends on it (the devices files are stored in the home folder of the root user)
+# Override the HOME enviroment variable
+# When executing a Docker Action, GitHub overrides the HOME variable 
+# in the command used to run the Docker (it is set to the home of the runner user)
+# the HOME must be restored to the standard home of the root user because 
+# ConnectIQ depends on it (the devices files are stored in the home folder of the root user)
 export HOME=/root
 
 #entering folder when the app is stored relatively to the GitHub workspace
