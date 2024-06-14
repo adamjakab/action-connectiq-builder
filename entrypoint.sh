@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Staring entrypoint script..."
+echo "Starting entrypoint script..."
 
 #fail if one of the commands fails
 set -e
@@ -10,7 +10,7 @@ APP_PATH=$1
 DEVICE_ID=$2
 CERTIFICATE_PATH=$3
 
-function info {
+function loginfo {
 	if [[ -n $1 ]]
 	then
 		message="$1"
@@ -18,7 +18,7 @@ function info {
 	else
 		while read -r message
 		do
-			info "$message"
+			loginfo "$message"
 		done
 	fi
 }
@@ -33,18 +33,18 @@ export HOME=/root
 #entering folder when the app is stored relatively to the GitHub workspace
 if [[ -n $1 ]]
 then
-	info "Entering folder $APP_PATH..."
+	loginfo "Entering folder $APP_PATH..."
 	cd "$APP_PATH"
-	info "Now in folder $(pwd)"
+	loginfo "Now in folder $(pwd)"
 fi
 
 #run tests
-info "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
+loginfo "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
 
-/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | info
+/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | loginfo
 
 result="${PIPESTATUS[0]}"
-info "Result code $result"
+loginfo "Result code $result"
 
 #set output variable
 if [[ $result -eq 0 ]];
