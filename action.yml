@@ -1,5 +1,5 @@
 name: "ConnectIQ Builder"
-description: "Test and build a ConnectIQ application"
+description: "Test and build a ConnectIQ application."
 inputs:
   path:
     description: "The path of the application to test"
@@ -21,7 +21,7 @@ runs:
   args:
     - ${{inputs.path}}
     - ${{inputs.device}}
-    - ${{inputs.certificate}}
+    # - ${{inputs.certificate}}
 branding:
-  icon: "triangle"
+  icon: "package"
   color: "orange"
