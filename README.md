@@ -1,4 +1,4 @@
-# ConnectIQ Tester for GitHub Actions
+# ConnectIQ Builder GitHub Actions
 
 ConnectIQ Tester is a GitHub Action that can be used to run the test "Run No Evil" of a ConnectIQ application. It relies on the Docker image [ghcr.io/matco/connectiq-tester](https://github.com/matco/connectiq-tester).
 
