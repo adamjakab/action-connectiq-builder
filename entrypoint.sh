@@ -13,18 +13,18 @@ APP_PATH=$1
 DEVICE_ID=$2
 CERTIFICATE_PATH=$3
 
-function loginfo {
-	if [[ -n $1 ]]
-	then
-		message="$1"
-		/usr/bin/echo "::debug::$message"
-	else
-		while read -r message
-		do
-			loginfo "$message"
-		done
-	fi
-}
+# function loginfo {
+# 	if [[ -n $1 ]]
+# 	then
+# 		message="$1"
+# 		/usr/bin/echo "::debug::$message"
+# 	else
+# 		while read -r message
+# 		do
+# 			loginfo "$message"
+# 		done
+# 	fi
+# }
 
 # Override the HOME enviroment variable
 # When executing a Docker Action, GitHub overrides the HOME variable 
@@ -42,12 +42,12 @@ then
 fi
 
 # Run tests
-loginfo "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
+echo "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
 
-/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | loginfo
+/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | echo
 
 result="${PIPESTATUS[0]}"
-loginfo "Result code $result"
+echo "Result code $result"
 
 #set output variable
 if [[ $result -eq 0 ]];
