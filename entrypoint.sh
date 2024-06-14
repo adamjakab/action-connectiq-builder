@@ -14,7 +14,7 @@ function loginfo {
 	if [[ -n $1 ]]
 	then
 		message="$1"
-		echo -e "::debug::$message"
+		echo "::debug::$message"
 	else
 		while read -r message
 		do
