@@ -3,7 +3,7 @@
 echo "Starting entrypoint script..."
 
 #fail if one of the commands fails
-set -e
+#set -e
 
 #retrieve parameters
 APP_PATH=$1
@@ -30,15 +30,15 @@ function loginfo {
 # ConnectIQ depends on it (the devices files are stored in the home folder of the root user)
 export HOME=/root
 
-#entering folder when the app is stored relatively to the GitHub workspace
+# Entering folder when the app is stored relatively to the GitHub workspace
 if [[ -n $1 ]]
 then
-	loginfo "Entering folder $APP_PATH..."
+	echo "Entering folder $APP_PATH..."
 	cd "$APP_PATH"
-	loginfo "Now in folder $(pwd)"
+	echo "Now in folder $(pwd)"
 fi
 
-#run tests
+# Run tests
 loginfo "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
 
 /scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | loginfo
