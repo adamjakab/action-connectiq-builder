@@ -38,7 +38,7 @@ fi
 
 #run tests
 info "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
-tester.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | info
+/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH" | info
 result="${PIPESTATUS[0]}"
 info "Test finished with result code $result"
 

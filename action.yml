@@ -19,7 +19,7 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - "${{inputs.path}}"
+    - ${{inputs.path}}
     - ${{inputs.device}}
     - ${{inputs.certificate}}
 branding:
