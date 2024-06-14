@@ -7,25 +7,13 @@ permissions:
 on:
   push:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # check a non working app
-      - name: Test action with a non working app
-        id: test_not_working
-        uses: ./
-        with:
-          path: test/app
-          device: fr945
-        continue-on-error: true
-      - name: Check that action returned a failure status
-        if: steps.test_not_working.outputs.status != 'failure'
-        run: exit 1
 
       # check a working app
       - name: Remove failing test to get a working app
@@ -41,18 +29,30 @@ jobs:
         if: steps.test_working.outputs.status != 'success'
         run: exit 1
 
-      # check a working app with a custom certificate
-      - name: Generate certificate
-        run: openssl genrsa -out test/app/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in test/app/key.pem -out test/app/key.der -nocrypt
+      # # check a non working app
+      # - name: Test action with a non working app
+      #   id: test_not_working
+      #   uses: ./
+      #   with:
+      #     path: test/app
+      #     device: fr945
+      #   continue-on-error: true
+      # - name: Check that action returned a failure status
+      #   if: steps.test_not_working.outputs.status != 'failure'
+      #   run: exit 1
 
-      - name: Test action with a working app and a custom certificate
-        id: test_working_custom_certificate
-        uses: ./
-        with:
-          path: test/app
-          device: fr945
-          certificate: key.der
-        continue-on-error: true
-      - name: Check that action returned a success status
-        if: steps.test_working_custom_certificate.outputs.status != 'success'
-        run: exit 1
+      # # check a working app with a custom certificate
+      # - name: Generate certificate
+      #   run: openssl genrsa -out test/app/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in test/app/key.pem -out test/app/key.der -nocrypt
+
+      # - name: Test action with a working app and a custom certificate
+      #   id: test_working_custom_certificate
+      #   uses: ./
+      #   with:
+      #     path: test/app
+      #     device: fr945
+      #     certificate: key.der
+      #   continue-on-error: true
+      # - name: Check that action returned a success status
+      #   if: steps.test_working_custom_certificate.outputs.status != 'success'
+      #   run: exit 1

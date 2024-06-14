@@ -1,4 +1,4 @@
-FROM ghcr.io/matco/connectiq-tester:latest
+FROM ghcr.io/adamjakab/connectiq-builder:latest
 
 COPY entrypoint.sh /root/entrypoint.sh
 
