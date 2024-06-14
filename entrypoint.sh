@@ -1,30 +1,20 @@
 #!/bin/bash
 
 echo "Starting entrypoint script..."
-which echo
 
+# Fail if one of the commands fails
+set -e
 
-
-#fail if one of the commands fails
-#set -e
-
-#retrieve parameters
+# Retrieve the script parameters
 APP_PATH=$1
-DEVICE_ID=$2
-CERTIFICATE_PATH=$3
+DEVICE=$2
+TYPE_CHECK_LEVEL=2
+# CERTIFICATE=$3
 
-# function loginfo {
-# 	if [[ -n $1 ]]
-# 	then
-# 		message="$1"
-# 		/usr/bin/echo "::debug::$message"
-# 	else
-# 		while read -r message
-# 		do
-# 			loginfo "$message"
-# 		done
-# 	fi
-# }
+# Display the script parameters
+echo "APP_PATH: ${APP_PATH}"
+echo "DEVICE: ${DEVICE}"
+echo "TYPE_CHECK_LEVEL: ${TYPE_CHECK_LEVEL}"
 
 # Override the HOME enviroment variable
 # When executing a Docker Action, GitHub overrides the HOME variable 
@@ -42,9 +32,9 @@ then
 fi
 
 # Run tests
-echo "Running tests on device [$DEVICE_ID] with certificate [$CERTIFICATE_PATH]..."
+echo "Running tests on device [$DEVICE] with certificate [$CERTIFICATE_PATH]..."
 
-/scripts/test.sh "$DEVICE_ID" "$CERTIFICATE_PATH"
+/scripts/test.sh --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL}
 result=$?
 echo "Script exit code: $result"
 
