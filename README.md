@@ -1,25 +1,31 @@
 # ConnectIQ Builder GitHub Actions
 
-ConnectIQ Tester is a GitHub Action that can be used to run the test "Run No Evil" of a ConnectIQ application. It relies on the Docker image [ghcr.io/matco/connectiq-tester](https://github.com/matco/connectiq-tester).
+ConnectIQ Builder is a GitHub Action that can be used to test and build ConnectIQ applications. 
+
 
 ## Usage
 
-Here is sample step to test your application in your CI workflows:
+Basic usage:
 
 ```
 - name: Test application
   id: run_tests
-  uses: matco/action-connectiq-tester@v1
+  uses: adamjakab/action-connectiq-builder@v1
   with:
-    device: fenix5
+    device: fr235
 ```
 
 ### Inputs
 
 - path: The path of the application to test. By default, the root of the repository will be used.
 - device: The id of the device used to run the tests. By default, a Fenix 7 will be used.
-- certificate: The optional path of a certificate used to compile the application relatively to the path of the application. If not specified, a temporary certificate will be generated automatically.
+- certificate: **!!!DO NOT USE!!!** The optional path of a certificate used to compile the application relatively to the path of the application. If not specified, a temporary certificate will be generated automatically.
 
 ### Outputs
 
 - status: "success" if tests succeeded, "failure" if not
+
+
+## Notes
+
+This acion relies on the docker image [ghcr.io/adamjakab/connectiq-builder](ghcr.io/adamjakab/connectiq-builder).
