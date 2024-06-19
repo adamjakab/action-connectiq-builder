@@ -1,17 +1,25 @@
 name: "ConnectIQ Builder"
 description: "Test and build a ConnectIQ application."
 inputs:
+  operation:
+    description: "The name of the operation to run (INFO|TEST|PACKAGE)."
+    required: true
+    default: TEST
   path:
-    description: "The path of the application to test"
+    description: "The path of the application to test or build"
     required: true
     default: .
   device:
-    description: "The id of the device used to run the tests"
+    description: "The device ID used to run the test or build process."
     required: true
     default: fr235
-  # certificate:
-  #   description: "The path of the certificate used to compile the application relatively to the path of the application"
-  #   required: false
+  type_check_level:
+    description: "The type check level to use when compiling the application (0-3)."
+    required: true
+    default: 2
+  certificate:
+    description: "The base64 encoded certificate to use to test or build the application."
+    required: false
 outputs:
   status:
     description: "'success' if tests succeeded, 'failure' if not"
@@ -19,11 +27,11 @@ runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - TEST
+    - ${{inputs.operation}}
     - ${{inputs.path}}
     - ${{inputs.device}}
-    - 2
-    # - ${{inputs.certificate}}
+    - ${{inputs.type_check_level}}
+    - ${{inputs.certificate}}
 branding:
   icon: "package"
   color: "orange"

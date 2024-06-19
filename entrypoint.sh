@@ -6,27 +6,31 @@ echo "Starting entrypoint script..."
 set -e
 
 # Retrieve the script parameters
-SCRIPT_NAME=${1}
+OPERATION=${1}
 APP_PATH=${2}
 DEVICE=${3}
 TYPE_CHECK_LEVEL=${4}
 CERTIFICATE=${5}
 
-case "${SCRIPT_NAME}" in
-	TEST)
-		SCRIPT_PATH="/scripts/test.sh"
-		;;
+case "${OPERATION}" in
 	INFO)
 		SCRIPT_PATH="/scripts/info.sh"
 		;;
+	TEST)
+		SCRIPT_PATH="/scripts/test.sh"
+		;;
+	PACKAGE)
+		echo "The package script is not implemented yet! Check back later."
+		exit 5
+		;;
 	*)
-		echo "Bad scipt name: '${SCRIPT_NAME}'."
+		echo "Bad scipt name: '${OPERATION}'."
 		exit 1
 esac
 
 
 # Display the script parameters
-echo "SCRIPT: ${SCRIPT_NAME}(${SCRIPT_PATH})"
+echo "SCRIPT: ${OPERATION}(${SCRIPT_PATH})"
 echo "APP_PATH: ${APP_PATH}"
 echo "DEVICE: ${DEVICE}"
 echo "TYPE_CHECK_LEVEL: ${TYPE_CHECK_LEVEL}"
