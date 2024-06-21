@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting entrypoint script..."
+echo "Starting ConnectIQ Builder GitHub Action entrypoint script..."
 
 # Fail if one of the commands fails
 set -e

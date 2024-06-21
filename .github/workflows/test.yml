@@ -22,6 +22,7 @@ jobs:
         id: test_working
         uses: ./
         with:
+          operation: TEST
           path: test/app
           device: fr235
         continue-on-error: true

@@ -1,4 +1,4 @@
-# ConnectIQ Builder GitHub Actions
+# ConnectIQ Builder GitHub Action
 
 ConnectIQ Builder is a GitHub Action (`adamjakab/action-connectiq-builder@v1`) that can be used to test and build ConnectIQ applications.
 
