@@ -88,3 +88,5 @@ steps:
 - Usign secrets in workflow: https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#using-secrets-in-a-workflow
 
 - how to store certificates in github: https://josh-ops.com/posts/storing-certificates-as-github-secrets/
+
+- Notes on updating: After a new version tag has been pushed to GH, the `v1` release needs to be updated to reference the new tag. Additionally v1 branch needs to be updated so that it is aligned with the master branch at the new tag.
