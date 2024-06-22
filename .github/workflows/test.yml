@@ -25,6 +25,7 @@ jobs:
           device: fr235
       - name: Check that action returns output status 'success'
         if: ${{ steps.test_working.outputs.status }} != 'success'
+        run: echo "STATUS: ${{ steps.test_working.outputs.status }}"
         run: exit 1
   test_2:
     name: Run TEST on a non-working app
@@ -43,6 +44,7 @@ jobs:
           device: fr235
       - name: Check that action returns output status 'failure'
         if: ${{ steps.test_working.outputs.status }} != 'failure'
+        run: echo "STATUS: ${{ steps.test_working.outputs.status }}"
         run: exit 1
   # test_3:
   #   runs-on: ubuntu-latest
