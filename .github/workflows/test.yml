@@ -8,52 +8,91 @@ on:
   push:
     branches:
       - "*"
-
 jobs:
-  test:
+  test_1:
+    name: Run TEST on a working app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # check a working app
-      - name: Remove failing test to get a working app
-        run: rm test/app/source/test/NotWorkingTest.mc
-      - name: Test action with a working app
+      - name: Prepare Test (Pass)
+        run: cp -R test/app/source/test_pass test/app/source/test
+      - name: Run Test (PASS)
         id: test_working
         uses: ./
         with:
           operation: TEST
           path: test/app
           device: fr235
-        continue-on-error: true
-      - name: Check that action returned a success status
+      - name: Check that action returns output status
         if: steps.test_working.outputs.status != 'success'
         run: exit 1
+  test_2:
+    name: Run TEST on a non-working app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare Test (Pass)
+        run: cp -R test/app/source/test_fail test/app/source/test
+      - name: Run Test (FAIL)
+        id: test_failing
+        continue-on-error: true
+        uses: ./
+        with:
+          operation: TEST
+          path: test/app
+          device: fr235
+      - name: Check that action returns output status
+        if: steps.test_failing.outputs.status != 'failure'
+        run: exit 1
+  # test_3:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
 
-      # # check a non working app
-      # - name: Test action with a non working app
-      #   id: test_not_working
-      #   uses: ./
-      #   with:
-      #     path: test/app
-      #     device: fr235
-      #   continue-on-error: true
-      # - name: Check that action returned a failure status
-      #   if: steps.test_not_working.outputs.status != 'failure'
-      #   run: exit 1
+#       # check a working app
+#       - name: Remove failing test to get a working app
+#         run: rm test/app/source/test/NotWorkingTest.mc
+#       - name: Test action with a working app
+#         id: test_working
+#         uses: ./
+#         with:
+#           operation: TEST
+#           path: test/app
+#           device: fr235
+#         continue-on-error: true
+#       - name: Check that action returned a success status
+#         if: steps.test_working.outputs.status != 'success'
+#         run: exit 1
 
-      # # check a working app with a custom certificate
-      # - name: Generate certificate
-      #   run: openssl genrsa -out test/app/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in test/app/key.pem -out test/app/key.der -nocrypt
+#       # check a non working app
+#       - name: Test action with a non working app
+#         id: test_not_working
+#         uses: ./
+#         with:
+#           path: test/app
+#           device: fr235
+#         continue-on-error: true
+#       - name: Check that action returned a failure status
+#         if: steps.test_not_working.outputs.status != 'failure'
+#         run: exit 1
 
-      # - name: Test action with a working app and a custom certificate
-      #   id: test_working_custom_certificate
-      #   uses: ./
-      #   with:
-      #     path: test/app
-      #     device: fr235
-      #     certificate: key.der
-      #   continue-on-error: true
-      # - name: Check that action returned a success status
-      #   if: steps.test_working_custom_certificate.outputs.status != 'success'
-      #   run: exit 1
+#       # check a working app with a custom certificate
+#       - name: Generate certificate
+#         run: openssl genrsa -out test/app/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in test/app/key.pem -out test/app/key.der -nocrypt
+
+#       - name: Test action with a working app and a custom certificate
+#         id: test_working_custom_certificate
+#         uses: ./
+#         with:
+#           path: test/app
+#           device: fr235
+#           certificate: key.der
+#         continue-on-error: true
+#       - name: Check that action returned a success status
+#         if: steps.test_working_custom_certificate.outputs.status != 'success'
+#         run: exit 1
