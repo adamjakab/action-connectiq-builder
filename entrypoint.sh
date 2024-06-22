@@ -3,7 +3,7 @@
 echo "Starting ConnectIQ Builder GitHub Action entrypoint script..."
 
 # Fail if one of the commands fails
-set -e
+# set -e
 
 # Retrieve the script parameters
 OPERATION=${1}
