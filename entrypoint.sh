@@ -68,6 +68,7 @@ echo "**************************************************************************
 echo "Script exit code: $result"
 
 # Grab the path of the generated package from the output of the script
+printenv
 PACKAGE_FULL_PATH=$(grep "Package path:" ${CMD_OUT_FILE} | cut -d ":" -f2 | xargs)
 
 # Set output variables (if running in Github context)

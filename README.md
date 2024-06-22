@@ -30,9 +30,11 @@ The following inputs are available under the `with` keyword:
 
 - `package_name`: Optional. The file name of the package that is built when operation mode is PACKAGE.
 
-### Outputs
+## Outputs
 
-- `status`: "success" if all tests are successful, "failure" if any of them fail.
+- `status`: If the opearion ran successfully, the value of this output will be `success`. Otherwise `failure`.
+
+- `package_path`: The absolute path of the generated package (when operation = `PACKAGE`). This can be useful if you want to add the package to a release.
 
 ### Examples
 
@@ -80,12 +82,6 @@ steps:
       certificate: ${{ secrets.connectiq_dev_key }}
       package_name: myApp_${{ github.ref_name }}.iq
 ```
-
-## Outputs
-
-- `status`: If the opearion ran successfully, the value of this output will be `success`. Otherwise `failure`.
-
-- `package_path`: The absolute path of the generated package (when operation = `PACKAGE`). This can be useful if you want to add the package to a release.
 
 ## Notes
 
