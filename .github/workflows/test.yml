@@ -24,7 +24,7 @@ jobs:
           path: test/app
           device: fr235
       - name: Check that action returns output status 'success'
-        if: ${{ steps.test_working.outputs.status }} != 'success'
+        if: "${{ steps.test_working.outputs.status }}" != "success"
         run: |
           echo "STATUS: ${{ steps.test_working.outputs.status }}"
           exit 1
@@ -44,9 +44,9 @@ jobs:
           path: test/app
           device: fr235
       - name: Check that action returns output status 'failure'
-        if: ${{ steps.test_working.outputs.status }} != 'failure'
+        if: ${{ steps.test_failing.outputs.status }} != 'failure'
         run: |
-          echo "STATUS: ${{ steps.test_working.outputs.status }}"
+          echo "STATUS: ${{ steps.test_failing.outputs.status }}"
           exit 1
   # test_3:
   #   runs-on: ubuntu-latest
