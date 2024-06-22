@@ -10,6 +10,21 @@ on:
       - "*"
 jobs:
   test_1:
+    name: Run INFO operation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Info
+        id: info
+        uses: ./
+        with:
+          operation: INFO
+          path: test/app
+          device: fr235
+      - name: Check that action returns output status 'success'
+        if: steps.test_failing.outputs.status != 'success'
+        run: exit 1
+  test_2:
     name: Run TEST on a working app
     runs-on: ubuntu-latest
     steps:
@@ -25,10 +40,8 @@ jobs:
           device: fr235
       - name: Check that action returns output status 'success'
         if: steps.test_working.outputs.status != 'success'
-        run: |
-          echo "STATUS: ${{ steps.test_working.outputs.status }}"
-          exit 1
-  test_2:
+        run: exit 1
+  test_3:
     name: Run TEST on a non-working app
     runs-on: ubuntu-latest
     steps:
@@ -45,14 +58,12 @@ jobs:
           device: fr235
       - name: Check that action returns output status 'failure'
         if: steps.test_failing.outputs.status != 'failure'
-        run: |
-          echo "STATUS: ${{ steps.test_failing.outputs.status }}"
-          exit 1
-  # test_3:
+        run: exit 1
+
+  # test_X:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
-
 # jobs:
 #   test:
 #     runs-on: ubuntu-latest
