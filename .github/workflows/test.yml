@@ -16,15 +16,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Prepare Test (Pass)
         run: rm -f test/app/source/test/failTest.mc
-      - name: Run Test (PASS)
+      - name: Run Test (Pass)
         id: test_working
         uses: ./
         with:
           operation: TEST
           path: test/app
           device: fr235
-      - name: Check that action returns output status
-        if: steps.test_working.outputs.status != 'success'
+      - name: Check that action returns output status 'success'
+        if: ${{ steps.test_working.outputs.status }} != 'success'
         run: exit 1
   test_2:
     name: Run TEST on a non-working app
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Prepare Test (Fail)
         run: rm -f test/app/source/test/passTest.mc
-      - name: Run Test (FAIL)
+      - name: Run Test (Fail)
         id: test_failing
         continue-on-error: true
         uses: ./
@@ -41,8 +41,8 @@ jobs:
           operation: TEST
           path: test/app
           device: fr235
-      - name: Check that action returns output status
-        if: steps.test_failing.outputs.status != 'failure'
+      - name: Check that action returns output status 'failure'
+        if: ${{ steps.test_working.outputs.status }} != 'failure'
         run: exit 1
   # test_3:
   #   runs-on: ubuntu-latest
