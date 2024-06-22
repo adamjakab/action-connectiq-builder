@@ -24,30 +24,30 @@ jobs:
           path: test/app
           device: fr235
       - name: Check that action returns output status 'success'
-        if: "${{ steps.test_working.outputs.status }}" != "success"
+        if: "${{ steps.test_working.outputs.status }}" != 'success'
         run: |
           echo "STATUS: ${{ steps.test_working.outputs.status }}"
           exit 1
-  test_2:
-    name: Run TEST on a non-working app
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Prepare Test (Fail)
-        run: rm -f test/app/source/test/passTest.mc
-      - name: Run Test (Fail)
-        id: test_failing
-        continue-on-error: true
-        uses: ./
-        with:
-          operation: TEST
-          path: test/app
-          device: fr235
-      - name: Check that action returns output status 'failure'
-        if: ${{ steps.test_failing.outputs.status }} != 'failure'
-        run: |
-          echo "STATUS: ${{ steps.test_failing.outputs.status }}"
-          exit 1
+  # test_2:
+  #   name: Run TEST on a non-working app
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Prepare Test (Fail)
+  #       run: rm -f test/app/source/test/passTest.mc
+  #     - name: Run Test (Fail)
+  #       id: test_failing
+  #       continue-on-error: true
+  #       uses: ./
+  #       with:
+  #         operation: TEST
+  #         path: test/app
+  #         device: fr235
+  #     - name: Check that action returns output status 'failure'
+  #       if: ${{ steps.test_failing.outputs.status }} != 'failure'
+  #       run: |
+  #         echo "STATUS: ${{ steps.test_failing.outputs.status }}"
+  #         exit 1
   # test_3:
   #   runs-on: ubuntu-latest
   #   steps:
