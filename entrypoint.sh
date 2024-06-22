@@ -2,16 +2,13 @@
 
 echo "Starting ConnectIQ Builder GitHub Action entrypoint script..."
 
-# Fail if one of the commands fails
-# set -e
-
 # Retrieve the script parameters
 OPERATION=${1}
 APP_PATH=${2}
 DEVICE=${3}
 TYPE_CHECK_LEVEL=${4}
-CERTIFICATE=${5}
-PACKAGE_NAME=${6}
+# CERTIFICATE=${5}
+PACKAGE_NAME=${5}
 
 # Select the script based on the operation
 case "${OPERATION}" in
@@ -29,13 +26,17 @@ case "${OPERATION}" in
 		exit 1
 esac
 
-# Base64 Decode the certificate and store it in a file
+# Get the developer key from the environment variable, Base64 Decode it and store it in a file
 CERTIFICATE_PATH=""
-if [[ ! -z "$CERTIFICATE" ]]
+if [[ ! -z "${CONNECTIQ_DEVELOPER_KEY}" ]]
 then
+	echo "Developer key found in CONNECTIQ_DEVELOPER_KEY variable."
+	echo ${CONNECTIQ_DEVELOPER_KEY}
 	CERTIFICATE_PATH="/tmp/key.der"
-	echo "Certificate received. Decoding with base64..."
-	echo ${CERTIFICATE} | base64 --decode > ${CERTIFICATE_PATH}
+	echo "Decoding with base64..."
+	echo ${CONNECTIQ_DEVELOPER_KEY} | base64 --decode > ${CERTIFICATE_PATH}	
+else
+	echo "No developer key was provided."
 fi
 
 # Display the script parameters / variables
@@ -43,7 +44,6 @@ echo "SCRIPT: ${OPERATION}(${SCRIPT_PATH})"
 echo "APP_PATH: ${APP_PATH}"
 echo "DEVICE: ${DEVICE}"
 echo "TYPE_CHECK_LEVEL: ${TYPE_CHECK_LEVEL}"
-# echo "CERTIFICATE: ${CERTIFICATE}" - we do not want to log this
 echo "CERTIFICATE_PATH: ${CERTIFICATE_PATH}"
 echo "PACKAGE_NAME: ${PACKAGE_NAME}"
 

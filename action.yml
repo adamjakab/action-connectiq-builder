@@ -31,12 +31,13 @@ outputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+  env:
+    CONNECTIQ_DEVELOPER_KEY: ${{inputs.certificate}}
   args:
     - ${{inputs.operation}}
     - ${{inputs.path}}
     - ${{inputs.device}}
     - ${{inputs.type_check_level}}
-    - ${{inputs.certificate}}
     - ${{inputs.package_name}}
 branding:
   icon: "package"

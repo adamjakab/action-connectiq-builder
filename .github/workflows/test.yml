@@ -59,24 +59,25 @@ jobs:
       - name: Check that action returns output status 'failure'
         if: steps.test_failing.outputs.status != 'failure'
         run: exit 1
-  # test_4:
-  #   name: Run TEST on a working app with developer key
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Prepare Test (Pass)
-  #       run: rm -f test/app/source/test/failTest.mc
-  #     - name: Generate certificate
-  #       run: |
-  #         openssl genrsa -out /tmp/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in /tmp/key.pem -out /tmp/key.der -nocrypt
-  #     - name: Run Test (Pass)
-  #       id: test_working
-  #       uses: ./
-  #       with:
-  #         operation: TEST
-  #         path: test/app
-  #         device: fr235
-  #         certificate: xyz
-  #     - name: Check that action returns output status 'success'
-  #       if: steps.test_working.outputs.status != 'success'
-  #       run: exit 1
+  test_4:
+    name: Run TEST on a working app with developer key
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare Test (Pass)
+        run: rm -f test/app/source/test/failTest.mc
+      - name: Generate certificate
+        run: |
+          openssl genrsa -out /tmp/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in /tmp/key.pem -out /tmp/key.der -nocrypt
+          echo "MY_DEV_KEY=$(cat /tmp/key.der | base64) >> $GITHUB_ENV
+      - name: Run Test (Pass)
+        id: test_working
+        uses: ./
+        with:
+          operation: TEST
+          path: test/app
+          device: fr235
+          certificate: ${{ env.MY_DEV_KEY }}
+      - name: Check that action returns output status 'success'
+        if: steps.test_working.outputs.status != 'success'
+        run: exit 1
