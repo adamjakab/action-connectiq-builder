@@ -51,25 +51,29 @@ echo "PACKAGE_NAME: ${PACKAGE_NAME}"
 export HOME=/root
 
 # Entering the applicaiton folder
-APP_PATH_REAL="$(realpath "${APP_PATH}")"
-echo "Entering the application folder: '${APP_PATH_REAL}'..."
-cd "${APP_PATH_REAL}"
+echo "Entering the application folder: '${APP_PATH}'..."
+cd "${APP_PATH}"
 
 # Run the script
-CMD_OUT_FILE="/tmp/cmd.out.txt"
 echo "********************************************************************************"
 echo "**********************   Starting Script (${OPERATION})   **********************"
 echo "********************************************************************************"
-/bin/bash ${SCRIPT_PATH} --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL} --certificate-path=${CERTIFICATE_PATH} --package-name=${PACKAGE_NAME} | tee ${CMD_OUT_FILE}
+/bin/bash ${SCRIPT_PATH} --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL} --certificate-path=${CERTIFICATE_PATH} --package-name=${PACKAGE_NAME}
 result=$?
 echo "********************************************************************************"
 echo "*****************************   Script Completed  ******************************"
 echo "********************************************************************************"
 echo "Script exit code: $result"
 
-# Grab the path of the generated package from the output of the script
-printenv
-PACKAGE_FULL_PATH=$(grep "Package path:" ${CMD_OUT_FILE} | cut -d ":" -f2 | xargs)
+
+# Prepare the relative package path for output
+# Note: GITHUB_WORKSPACE points to /github/workspace which is not usable after the process exits
+PACKAGE_PATH=""
+if [[ ${OPERATION} = "PACKAGE" ]]
+then
+	PACKAGE_PATH="bin/${PACKAGE_NAME}"
+fi
+
 
 # Set output variables (if running in Github context)
 if [[ $result -eq 0 ]];
@@ -77,7 +81,7 @@ then
 	if [[ ! -z "$CI" ]]
 	then
 		echo "status=success" >> "$GITHUB_OUTPUT"
-		echo "package_path=${PACKAGE_FULL_PATH}" >> "$GITHUB_OUTPUT"
+		echo "package_path=${PACKAGE_PATH}" >> "$GITHUB_OUTPUT"
 	else
 		echo "Success."
 	fi

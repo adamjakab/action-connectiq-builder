@@ -27,7 +27,7 @@ outputs:
   status:
     description: "It will output 'success' if the operation succeeded. Otherwise: 'failure'."
   package_path:
-    description: "The absolute path of the generated package (when operation = PACKAGE)."
+    description: "The path of the generated package relative to the input path (when operation = PACKAGE)."
 runs:
   using: "docker"
   image: "Dockerfile"

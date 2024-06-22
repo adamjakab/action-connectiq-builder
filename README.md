@@ -34,7 +34,7 @@ The following inputs are available under the `with` keyword:
 
 - `status`: If the opearion ran successfully, the value of this output will be `success`. Otherwise `failure`.
 
-- `package_path`: The absolute path of the generated package (when operation = `PACKAGE`). This can be useful if you want to add the package to a release.
+- `package_path`: The path of the generated package (when operation = `PACKAGE`) relative to the input path. This can be useful if you want to add the package to a release. you can reference the package in the workflow as `${{ github.workspace }}/${{ steps.package_app.outputs.package_path }}` where `package_app` is the id of this step.
 
 ### Examples
 
@@ -75,7 +75,7 @@ To use the `PACKAGE` operation the configuration will need to have your develope
 ```yml
 steps:
   - name: Package my garmin app
-    id: run_tests
+    id: package_app
     uses: adamjakab/action-connectiq-builder@v1
     with:
       operation: PACKAGE
