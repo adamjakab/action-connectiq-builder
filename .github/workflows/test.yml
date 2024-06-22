@@ -3,11 +3,11 @@ name: Test the action
 permissions:
   contents: read
 
-# this will be executed on every push on a branch (hence on every commit), but not when pushing a tag
 on:
   push:
     branches:
       - "*"
+
 jobs:
   test_1:
     name: Run INFO Operation

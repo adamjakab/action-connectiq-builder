@@ -7,7 +7,6 @@ OPERATION=${1}
 APP_PATH=${2}
 DEVICE=${3}
 TYPE_CHECK_LEVEL=${4}
-# CERTIFICATE=${5}
 PACKAGE_NAME=${5}
 
 # Select the script based on the operation
@@ -31,7 +30,6 @@ CERTIFICATE_PATH=""
 if [[ ! -z "${CONNECTIQ_DEVELOPER_KEY}" ]]
 then
 	echo "Developer key found in CONNECTIQ_DEVELOPER_KEY variable."
-	echo ${CONNECTIQ_DEVELOPER_KEY}
 	CERTIFICATE_PATH="/tmp/key.der"
 	echo "Decoding with base64..."
 	echo ${CONNECTIQ_DEVELOPER_KEY} | base64 --decode > ${CERTIFICATE_PATH}	
