@@ -81,6 +81,12 @@ steps:
       package_name: myApp_${{ github.ref_name }}.iq
 ```
 
+## Outputs
+
+- `status`: If the opearion ran successfully, the value of this output will be `success`. Otherwise `failure`.
+
+- `package_path`: The absolute path of the generated package (when operation = `PACKAGE`). This can be useful if you want to add the package to a release.
+
 ## Notes
 
 - This acion relies on the docker image [ghcr.io/adamjakab/connectiq-builder](ghcr.io/adamjakab/connectiq-builder).

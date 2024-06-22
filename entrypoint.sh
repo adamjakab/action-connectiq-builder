@@ -50,27 +50,33 @@ echo "PACKAGE_NAME: ${PACKAGE_NAME}"
 # Restore the HOME enviroment variable
 export HOME=/root
 
-# Entering folder when the app is stored relatively to the GitHub workspace
-echo "Entering the application folder '$APP_PATH'..."
-cd "$APP_PATH"
+# Entering the applicaiton folder
+APP_PATH_REAL="$(realpath "${APP_PATH}")"
+echo "Entering the application folder: '${APP_PATH_REAL}'..."
+cd "${APP_PATH_REAL}"
 
-# Run the script 
+# Run the script
+CMD_OUT_FILE="/tmp/cmd.out.txt"
 echo "********************************************************************************"
 echo "**********************   Starting Script (${OPERATION})   **********************"
 echo "********************************************************************************"
-/bin/bash ${SCRIPT_PATH} --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL} --certificate-path=${CERTIFICATE_PATH} --package-name=${PACKAGE_NAME}
+/bin/bash ${SCRIPT_PATH} --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL} --certificate-path=${CERTIFICATE_PATH} --package-name=${PACKAGE_NAME} | tee ${CMD_OUT_FILE}
 result=$?
 echo "********************************************************************************"
 echo "*****************************   Script Completed  ******************************"
 echo "********************************************************************************"
 echo "Script exit code: $result"
 
-#set output variable when running in Github context
+# Grab the path of the generated package from the output of the script
+PACKAGE_FULL_PATH=$(grep "Package path:" ${CMD_OUT_FILE} | cut -d ":" -f2 | xargs)
+
+# Set output variables (if running in Github context)
 if [[ $result -eq 0 ]];
 then
 	if [[ ! -z "$CI" ]]
 	then
 		echo "status=success" >> "$GITHUB_OUTPUT"
+		echo "package_path=${PACKAGE_FULL_PATH}" >> "$GITHUB_OUTPUT"
 	else
 		echo "Success."
 	fi
@@ -78,6 +84,7 @@ else
 	if [[ ! -z "$CI" ]]
 	then
 		echo "status=failure" >> "$GITHUB_OUTPUT"
+		echo "package_path=" >> "$GITHUB_OUTPUT"
 	else
 		echo "Failure!"
 	fi
