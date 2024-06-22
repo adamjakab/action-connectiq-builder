@@ -10,7 +10,7 @@ on:
       - "*"
 jobs:
   test_1:
-    name: Run INFO operation
+    name: Run INFO Operation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         if: steps.info.outputs.status != 'success'
         run: exit 1
   test_2:
-    name: Run TEST on a working app
+    name: Run TEST (Pass)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
         if: steps.test_working.outputs.status != 'success'
         run: exit 1
   test_3:
-    name: Run TEST on a non-working app
+    name: Run TEST (Fail)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
         if: steps.test_failing.outputs.status != 'failure'
         run: exit 1
   test_4:
-    name: Run TEST on a working app with developer key
+    name: Run TEST (Developer Key)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -80,4 +80,25 @@ jobs:
           certificate: ${{ env.MY_DEV_KEY }}
       - name: Check that action returns output status 'success'
         if: steps.test_working.outputs.status != 'success'
+        run: exit 1
+  test_5:
+    name: Run PACKAGE Operation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate certificate
+        run: |
+          openssl genrsa -out /tmp/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in /tmp/key.pem -out /tmp/key.der -nocrypt
+          echo "MY_DEV_KEY=$(cat /tmp/key.der | base64 --wrap=0)" >> $GITHUB_ENV
+      - name: Run Package
+        id: package_app
+        uses: ./
+        with:
+          operation: PACKAGE
+          path: test/app
+          device: fr235
+          certificate: ${{ env.MY_DEV_KEY }}
+          package_name: MyPackagedApp_v0.0.1.iq
+      - name: Check that action returns output status 'success'
+        if: steps.package_app.outputs.status != 'success'
         run: exit 1
