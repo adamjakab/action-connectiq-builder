@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Prepare Test (Pass)
-        run: cp -R test/app/source/test_pass test/app/source/test
+        run: rm -f test/app/source/test/failTest.mc
       - name: Run Test (PASS)
         id: test_working
         uses: ./
@@ -31,8 +31,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare Test (Pass)
-        run: cp -R test/app/source/test_fail test/app/source/test
+      - name: Prepare Test (Fail)
+        run: rm -f test/app/source/test/passTest.mc
       - name: Run Test (FAIL)
         id: test_failing
         continue-on-error: true
