@@ -83,12 +83,16 @@ steps:
       package_name: myApp_${{ github.ref_name }}.iq
 ```
 
+## Credits
+
+This repo is a fork of the [matco/action-connectiq-tester](https://github.com/matco/action-connectiq-tester) repo.
+
 ## Notes
 
-- This acion relies on the docker image [ghcr.io/adamjakab/connectiq-builder](ghcr.io/adamjakab/connectiq-builder).
+- This acion relies on the docker image [ghcr.io/adamjakab/connectiq-builder](https://ghcr.io/adamjakab/connectiq-builder) built by the [adamjakab/connectiq-builder](https://github.com/adamjakab/connectiq-builder) project.
 
 - Usign secrets in workflow: https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#using-secrets-in-a-workflow
 
 - how to store certificates in github: https://josh-ops.com/posts/storing-certificates-as-github-secrets/
 
-- Notes on updating: After a new version tag has been pushed to GH, the `v1` release needs to be updated to reference the new tag. Additionally v1 branch needs to be updated so that it is aligned with the master branch at the new tag.
+- Notes updates: After a new version tag has been pushed to GH, the v1 branch needs to be updated so that it is aligned with the master branch at the new tag. Additionally (optionally) the `v1` release can be updated to reference the new tag.
