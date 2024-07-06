@@ -21,6 +21,9 @@ inputs:
     description: "The type check level to use when compiling the application (0-3)."
     required: true
     default: 2
+  certificate:
+    description: "The base64 encoded certificate to use to test or build the application."
+    required: false
   package_name:
     description: "The file name of the package that is built when operation mode is PACKAGE."
     required: false
