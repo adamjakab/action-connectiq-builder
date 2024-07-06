@@ -13,16 +13,21 @@ inputs:
     description: "The device ID used to run the test or build process."
     required: true
     default: fr235
+  devices:
+    description: "The comma separated list of device ID used to run the tests."
+    required: false
+    default:
   type_check_level:
     description: "The type check level to use when compiling the application (0-3)."
     required: true
     default: 2
-  certificate:
-    description: "The base64 encoded certificate to use to test or build the application."
-    required: false
   package_name:
     description: "The file name of the package that is built when operation mode is PACKAGE."
     required: false
+  verbose:
+    description: "Verbose mode: 0 or 1."
+    required: false
+    default: 0
 outputs:
   status:
     description: "It will output 'success' if the operation succeeded. Otherwise: 'failure'."
@@ -37,8 +42,10 @@ runs:
     - ${{inputs.operation}}
     - ${{inputs.path}}
     - ${{inputs.device}}
+    - ${{inputs.devices}}
     - ${{inputs.type_check_level}}
     - ${{inputs.package_name}}
+    - ${{inputs.verbose}}
 branding:
   icon: "package"
   color: "orange"

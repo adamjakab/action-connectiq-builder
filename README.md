@@ -24,11 +24,15 @@ The following inputs are available under the `with` keyword:
 
 - `device`: Required. [Default: fr235] The id of the device used to run the operation. By default, a Forerunner 235 device is be used. The full list of devices can be found [here](https://developer.garmin.com/connect-iq/reference-guides/devices-reference/#devicereference).
 
+- `devices`: Optional. [Default: empty] The comma separated list of device IDs to on which the opration will be run (test only). If this input is used, the `device` option will be ignored. This input was created so that instead of running tests on multiple separate containers, you can pass the list into one container and use that to run all tests.
+
 - `check_type_level`: Required. [Default: 2] The type level check used when compiling the application with `monkeyc`. The available options (0-3) are described [here](https://developer.garmin.com/connect-iq/monkey-c/monkey-types/).
 
 - `certificate`: Optional. The base64 encoded version of the certificate to be used to compile the application. If not specified, a temporary certificate will be used for the test operation. For `PACKAGE` operation you must supply your own. Make sure to store it as a repository secret and add the variable name to your workflow. To convert your existing developer key into a base64 encoded version run `cat my_developer_key | base64 -w0`. The `-w0` argument is important because it will not wrap the lines (no line breaks).
 
 - `package_name`: Optional. The file name of the package that is built when operation mode is PACKAGE.
+
+- `verbose`: Optional. [Default: 0] Set it to 1 to get more verbose output from the scripts for debugging purposes.
 
 ## Outputs
 
@@ -68,6 +72,18 @@ jobs:
         with:
           operation: TEST
           device: ${{ matrix.device }}
+```
+
+However, if you want to test multiple devices without having to spin up one container for each, you can (using the `devices` option):
+
+```yml
+steps:
+  - name: Multiple tests
+    id: run_tests
+    uses: adamjakab/action-connectiq-builder@v1
+    with:
+      operation: TEST
+      devices: fenix3,fr235,vivoactive4
 ```
 
 To use the `PACKAGE` operation the configuration will need to have your developer key (`certificate`):

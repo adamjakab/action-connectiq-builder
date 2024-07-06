@@ -6,8 +6,10 @@ echo "Starting ConnectIQ Builder GitHub Action entrypoint script..."
 OPERATION=${1}
 APP_PATH=${2}
 DEVICE=${3}
-TYPE_CHECK_LEVEL=${4}
-PACKAGE_NAME=${5}
+DEVICES=${4}
+TYPE_CHECK_LEVEL=${5}
+PACKAGE_NAME=${6}
+VERBOSE=${7}
 
 # Select the script based on the operation
 case "${OPERATION}" in
@@ -41,9 +43,11 @@ fi
 echo "SCRIPT: ${OPERATION}(${SCRIPT_PATH})"
 echo "APP_PATH: ${APP_PATH}"
 echo "DEVICE: ${DEVICE}"
+echo "DEVICES: ${DEVICES}"
 echo "TYPE_CHECK_LEVEL: ${TYPE_CHECK_LEVEL}"
 echo "CERTIFICATE_PATH: ${CERTIFICATE_PATH}"
 echo "PACKAGE_NAME: ${PACKAGE_NAME}"
+echo "VERBOSE: ${VERBOSE}"
 
 # Restore the HOME enviroment variable
 export HOME=/root
@@ -56,7 +60,7 @@ cd "${APP_PATH}"
 echo "********************************************************************************"
 echo "**********************   Starting Script (${OPERATION})   **********************"
 echo "********************************************************************************"
-/bin/bash ${SCRIPT_PATH} --device=${DEVICE} --type-check-level=${TYPE_CHECK_LEVEL} --certificate-path=${CERTIFICATE_PATH} --package-name=${PACKAGE_NAME}
+/bin/bash ${SCRIPT_PATH} --verbose=${VERBOSE} --device=${DEVICE} --devices=${DEVICES} --type-check-level=${TYPE_CHECK_LEVEL} --certificate-path=${CERTIFICATE_PATH} --package-name=${PACKAGE_NAME}
 result=$?
 echo "********************************************************************************"
 echo "*****************************   Script Completed  ******************************"
