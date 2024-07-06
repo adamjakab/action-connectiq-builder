@@ -69,7 +69,7 @@ jobs:
       - name: Generate certificate
         run: |
           openssl genrsa -out /tmp/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in /tmp/key.pem -out /tmp/key.der -nocrypt
-          echo "MY_DEV_KEY=$(cat /tmp/key.der | base64 --wrap=0)" >> $GITHUB_ENV
+          echo "CONNECTIQ_DEVELOPER_KEY=$(cat /tmp/key.der | base64 --wrap=0)" >> $GITHUB_ENV
       - name: Run Test (Pass)
         id: test_working
         uses: ./
@@ -77,7 +77,7 @@ jobs:
           operation: TEST
           path: test/app
           device: fr235
-          certificate: ${{ env.MY_DEV_KEY }}
+          # certificate: ${{ env.MY_DEV_KEY }}
       - name: Check that action returns output status 'success'
         if: steps.test_working.outputs.status != 'success'
         run: exit 1
@@ -89,7 +89,7 @@ jobs:
       - name: Generate certificate
         run: |
           openssl genrsa -out /tmp/key.pem 4096 && openssl pkcs8 -topk8 -inform PEM -outform DER -in /tmp/key.pem -out /tmp/key.der -nocrypt
-          echo "MY_DEV_KEY=$(cat /tmp/key.der | base64 --wrap=0)" >> $GITHUB_ENV
+          echo "CONNECTIQ_DEVELOPER_KEY=$(cat /tmp/key.der | base64 --wrap=0)" >> $GITHUB_ENV
       - name: Run Package
         id: package_app
         uses: ./
@@ -97,7 +97,7 @@ jobs:
           operation: PACKAGE
           path: test/app
           device: fr235
-          certificate: ${{ env.MY_DEV_KEY }}
+          # certificate: ${{ env.MY_DEV_KEY }}
           package_name: MyPackagedApp_v0.0.1.iq
       - name: Check that action returns output status 'success'
         if: steps.package_app.outputs.status != 'success'
