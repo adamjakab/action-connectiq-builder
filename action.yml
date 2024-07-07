@@ -40,6 +40,7 @@ runs:
   using: "docker"
   image: "Dockerfile"
   env:
+    SDK_VERSION: 7.2.1
     CONNECTIQ_DEVELOPER_KEY: ${{inputs.certificate}}
   args:
     - ${{inputs.operation}}
